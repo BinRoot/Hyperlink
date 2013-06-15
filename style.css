@@ -1,0 +1,15 @@
+.hyperlink-normal {
+  color: blue;
+}
+
+.hyperlink-broken {
+  color: red;
+}
+
+.hyperlink-404 {
+  color: orange;
+}
+
+.hyperlink-redirect {
+  color: #4499ff;
+}
