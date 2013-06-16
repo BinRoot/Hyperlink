@@ -1,6 +1,8 @@
 $(document).ready(function(){
 	$("a[href]").each(function(index, value){
 		console.log(value.href)
-		$(this).css('color', '#25E01B');
+		if ($(this).attr('class') == 'hyperlink-blocked') {
+			$(this).html('<s>' + $(this).html() + '</s>');
+		}
 	});
 });
