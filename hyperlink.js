@@ -1,6 +1,9 @@
 console.log("works");
 
-// find all <a> links, ask highlight.io for details, asyc call back to color change
-
-
-// redirection done by site owner
+var links = $('a');
+for(var i=0; i < links.size(); i++) {
+    var link = links[i];
+    if (link.getAttribute('class') == 'hyperlink-blocked') {
+	$(link).html('<s>' + $(link).html() + '</s>');
+    }
+}

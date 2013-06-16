@@ -3,13 +3,17 @@
 }
 
 .hyperlink-broken {
-  color: red;
+  color: #dc4422;
 }
 
 .hyperlink-404 {
-  color: orange;
+  color: #884433;
 }
 
 .hyperlink-redirect {
   color: #4499ff;
+}
+
+.hyperlink-blocked {
+  color: gray;
 }
