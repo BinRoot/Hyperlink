@@ -59,14 +59,15 @@ function urlExists(url, callback) {
     };
 
     http.request(options, function(response) {
-	
+	var dataRec = false;
 	response.on('data', function (chunk) {
-	    
+	    if(!dataRec)
+		callback(null, response.statusCode);
+	    dataRec = true;
         });
 
-	response.on('end', function () {
-	    callback(null, response.statusCode);
-        });
+	response.on('end', function () {} );
+
     }).on('error', function(e){
         callback(null, e.code);
     }).end();
