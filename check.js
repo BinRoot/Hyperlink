@@ -2,12 +2,14 @@ var http = require('http');
 var https = require('https');
 var async = require('async');
 
+var urlParser = require('url');
+
 // -- customizing javascript
 
 function toArray(enumm) {
     return Array.prototype.slice.call(enumm);
 }
- 
+
 Function.prototype.curry = function() {
     if (arguments.length<1) {
         return this; //nothing to curry with - return function
@@ -20,9 +22,9 @@ Function.prototype.curry = function() {
 }
 
 if (typeof String.prototype.startsWith != 'function') {
-  String.prototype.startsWith = function (str){
-    return this.slice(0, str.length) == str;
-  };
+    String.prototype.startsWith = function (str){
+	return this.slice(0, str.length) == str;
+    };
 }
 
 // -- exports
@@ -41,26 +43,37 @@ exports.checkURLs = function(urls, callback) {
     }
 
     async.parallel(asyncFunctions,
-    function(err, results) {
-	console.log('got results: '+results);
-	callback(results);
-    });
+		   function(err, results) {
+		       console.log('got results: '+results);
+		       callback(results);
+		   });
 }
 
 // -- helper functions
 
 function urlExists(url, callback) {
-    console.log('checking '+url);
-    var protocol = http;
-    if(url.startsWith('https')) {
-	protocol = https;
-    }
+    var uri = urlParser.parse(url);
+    var options = {
+        host: uri.host,
+        path: uri.path
+    };
 
-    protocol.get(url, function(res) {
-	callback(null, res.statusCode);
-    }).on('error', function(e) {
-	callback(null, e.code);
-    });
+    http.request(options, function(response) {
+        var str = '';
+
+        //another chunk of data has been recieved, so append it to `str`                                                                                                        
+        response.on('data', function (chunk) {
+            str += chunk;
+        });
+
+        //the whole response has been recieved, so we just print it out here                                                                                                    
+        response.on('end', function () {
+            console.log(str);
+            callback(null, str);
+        });
+    }).on('error', function(e){
+        callback(null, e.code);
+    }).end();
 }
 
 
