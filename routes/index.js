@@ -13,6 +13,12 @@ exports.index = function(req, res){
             res.send(out);
         });
     }
+    else if(req.query.Q) {
+	var sites = req.query.Q.split(',');
+	checker.checkURLs(sites, function(out) {
+	    res.send(out);
+	});
+    }
     else {
 	res.render('index');
     }
