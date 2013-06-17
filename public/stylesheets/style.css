@@ -1,0 +1,27 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+a {
+  color: #00b7ff;
+}
+
+.hyperlink-normal {
+  color: #00b7ff;
+}
+
+.hyperlink-broken {
+  color: #dc4422;
+}
+
+.hyperlink-404 {
+  color: #884433;
+}
+
+.hyperlink-redirect {
+  color: #4499ff;
+}
+
+.hyperlink-blocked {
+  color: gray;
+}
