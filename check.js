@@ -36,6 +36,7 @@ exports.checkURL = function(url, callback) {
 }
 
 exports.checkURLs = function(urls, callback) {
+    console.log('searching for '+JSON.stringify(urls));
     var asyncFunctions = [];
     for(var i=0; i<urls.length; i++) {
 	console.log('pushing '+urls[i]);
@@ -66,7 +67,11 @@ function urlExists(url, callback) {
 	    dataRec = true;
         });
 
-	response.on('end', function () {} );
+	response.on('end', function () {
+	    if(!dataRec) {
+		callback(null, response.statusCode);
+	    }
+	} );
 
     }).on('error', function(e){
         callback(null, e.code);
