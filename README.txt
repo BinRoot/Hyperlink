@@ -52,3 +52,7 @@ Wants to see his/her website analytics.
 Social login
 On first login, given a generated auth key
 <script src="http://hyperlink.io/hyperlink.js"></script> (add the auth key somewhere)
+
+
+Dev Notes:
+- need to ignore non-http(s) links such as javascript:void(0);
