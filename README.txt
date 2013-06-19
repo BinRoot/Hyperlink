@@ -12,6 +12,8 @@ Immediately useful:
 * redirected links change color
 * spam links change color
 
+* popular links have indicators (normalized ranking, percent clicks)
+
 * link favicon support 
   - <a href="http://reddit.com" class="hyperlink-fav-left"></a>
 * external/internal link indicator
