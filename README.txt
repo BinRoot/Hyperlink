@@ -56,3 +56,5 @@ On first login, given a generated auth key
 
 Dev Notes:
 - need to ignore non-http(s) links such as javascript:void(0);
+  + function created. now need to use it.
+- use db cache, then fresh lookup, updating db if necessary
