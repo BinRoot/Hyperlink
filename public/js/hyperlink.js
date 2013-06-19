@@ -26,6 +26,25 @@ function colorLinks(urls, responseCodes) {
     });
 }
 
+function forEachUsefulLink( callback ) {
+    $.each( $('a'), function(i, v) {
+
+	// ignore javascript, etc
+	if( v.protocol == "http:" ||
+	    v.protocol == "https:" ) {
+
+	    // ignore anything that points to http://site.com/#hashtag
+	    if( v.href .contains( v.baseURI ) == -1 ) {
+
+		callback(i, v);				    
+
+	    }
+
+	}
+
+    });
+    
+}
 
 
 
