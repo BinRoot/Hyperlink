@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
     var urls = [];
-    $.each( $('a'), function(i, v) {
+    forEachLink( function(i, v) {
 	urls.push(v.href);
     });
 
@@ -14,7 +14,7 @@ $(document).ready(function() {
 });
 
 function colorLinks(urls, responseCodes) {
-    $.each( $('a'), function(i, v) {
+    forEachLink( function(i, v) {
 	var responseCode = responseCodes[i];
 	if( responseCode == 'ENOTFOUND' ) {
 	    $(v).addClass( 'hyperlink-broken' );
@@ -26,7 +26,7 @@ function colorLinks(urls, responseCodes) {
     });
 }
 
-function forEachUsefulLink( callback ) {
+function forEachLink( callback ) {
     $.each( $('a'), function(i, v) {
 
 	// ignore javascript, etc
@@ -34,12 +34,18 @@ function forEachUsefulLink( callback ) {
 	    v.protocol == "https:" ) {
 
 	    // ignore anything that points to http://site.com/#hashtag
-	    if( v.href .contains( v.baseURI ) == -1 ) {
-
+	    // TODO: this check is broken. http://localhost:3000/spamwebsite.com is wrongly ignored.
+	    var hashSplit = v.href.split("#");
+	    if( hashSplit.length >1 && hashSplit[0]==v.baseURI ) {
+		console.log('ignoring '+v.href+' because it contains #');		
+	    }
+	    else {
 		callback(i, v);				    
-
 	    }
 
+	}
+	else {
+	    console.log('ignoring '+v.href+' because it is a '+v.protocol+' protocol');
 	}
 
     });
