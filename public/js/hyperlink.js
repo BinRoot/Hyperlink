@@ -22,7 +22,6 @@ function colorLinks(urls, responseCodes) {
 	else if( responseCode == 404 ) {
 	    $(v).addClass( 'hyperlink-404' );
 	}
-
     });
 }
 
@@ -34,13 +33,13 @@ function forEachLink( callback ) {
 	    v.protocol == "https:" ) {
 
 	    // ignore anything that points to http://site.com/#hashtag
-	    // TODO: this check is broken. http://localhost:3000/spamwebsite.com is wrongly ignored.
+	    // TODO: Double check that this works.
 	    var hashSplit = v.href.split("#");
-	    if( hashSplit.length >1 && hashSplit[0]==v.baseURI ) {
+	    if( hashSplit.length > 1 && hashSplit[0]==v.baseURI ) {
 		console.log('ignoring '+v.href+' because it contains #');		
 	    }
 	    else {
-		callback(i, v);				    
+		callback(i, v);
 	    }
 
 	}
