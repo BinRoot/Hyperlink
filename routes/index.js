@@ -35,5 +35,10 @@ exports.index = function(req, res) {
 };
 
 exports.test = function(req, res) {
-    res.render('test');
+    if(req.route.method == 'get') {
+	if(req.query.a) {
+	    
+	}
+	res.render('test');
+    }
 }
