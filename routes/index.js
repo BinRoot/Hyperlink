@@ -10,9 +10,18 @@ exports.index = function(req, res) {
 
     if (req.route.method == 'post') {
 	var sites = req.body.data;
-	checker.checkURLs(sites, function(out) {
-	    res.send(out);
-	});
+	var cached = req.body.cached;
+	
+	if(cached == 'true') {
+	    checker.checkCachedURLs(sites, function(out) {
+		res.send(out);
+	    });
+	}
+	else {
+	    checker.checkURLs(sites, function(out) {
+		res.send(out);
+	    });
+	}
     }
     else if (req.route.method == 'get'){
 	if(req.query.q) {

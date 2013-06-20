@@ -4,6 +4,8 @@ var async = require('async');
 
 var urlParser = require('url');
 
+var db = require('./db.js');
+
 // -- customizing javascript
 
 function toArray(enumm) {
@@ -50,6 +52,22 @@ exports.checkURLs = function(urls, callback) {
 		   });
 }
 
+exports.checkCachedURLs = function(urls, callback) {
+    console.log('searching for '+JSON.stringify(urls));
+    var asyncFunctions = [];
+    for(var i=0; i<urls.length; i++) {
+	console.log('pushing '+urls[i]);
+	asyncFunctions.push( cachedUrlExists.curry(urls[i]) );
+    }
+
+    async.parallel(asyncFunctions,
+		   function(err, results) {
+		       console.log('got results: '+results);
+		       callback(results);
+		   });
+}
+
+
 // -- helper functions
 
 function urlExists(url, callback) {
@@ -62,20 +80,42 @@ function urlExists(url, callback) {
     http.request(options, function(response) {
 	var dataRec = false;
 	response.on('data', function (chunk) {
-	    if(!dataRec)
-		callback(null, response.statusCode);
+	    if(!dataRec) {
+		var updateData = {$set: {statusCode: response.statusCode}};
+		db.upsertLink(url, updateData, function(out) {
+		    callback(null, response.statusCode);		    
+		});
+	    }
 	    dataRec = true;
         });
 
 	response.on('end', function () {
 	    if(!dataRec) {
-		callback(null, response.statusCode);
+		var updateData = {$set: {statusCode: response.statusCode}};
+		db.upsertLink(url, updateData, function(out) {
+		    callback(null, response.statusCode);		    
+		});
 	    }
 	} );
 
     }).on('error', function(e){
-        callback(null, e.code);
+	var updateData = {$set: {statusCode: e.code}};
+	db.upsertLink(url, updateData, function(out) {
+	    callback(null, e.code);
+	});
     }).end();
+}
+
+
+function cachedUrlExists(url, callback) {
+    db.findLink(url, function(res) {
+	if(res) {
+	    callback(null, res.statusCode);
+	}
+	else {
+	    callback(null, -1);
+	}
+    });
 }
 
 

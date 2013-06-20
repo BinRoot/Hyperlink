@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
     var urls = [];
     forEachLink( function(i, v) {
 	urls.push(v.href);
@@ -7,8 +6,12 @@ $(document).ready(function() {
 
     console.log(urls);
 
-    $.post('/', { 'data': urls }, function(data) {
-	console.log(data);
+    $.post('/', { 'data': urls, 'cached': true }, function(data) {
+	console.log('cached result: '+data);
+	colorLinks(urls, data);
+    }, "json");
+    $.post('/', { 'data': urls, 'cached': false }, function(data) {
+	console.log('fresh result: '+data);
 	colorLinks(urls, data);
     }, "json");
 });
