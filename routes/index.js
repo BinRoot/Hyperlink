@@ -4,6 +4,7 @@
  */
 
 var checker = require('../check.js');
+var db = require('../db.js');
 
 exports.index = function(req, res) {
 
@@ -37,8 +38,17 @@ exports.index = function(req, res) {
 exports.test = function(req, res) {
     if(req.route.method == 'get') {
 	if(req.query.a) {
-	    
+	    db.upsertLink('http://www.reddit.com', {$set: {spam:false}}, function(out) {
+		res.send(out);
+	    });
 	}
-	res.render('test');
+	else if(req.query.b) {
+	    db.findLink('http://www.reddit.com', function(out) {
+		res.send(out);
+	    });
+	}
+	else {
+	    res.render('test');
+	}
     }
 }
