@@ -62,7 +62,8 @@ Dev Notes:
   + now need to test for edge cases. http://site.com#tag
 - use db cache, then fresh lookup, updating db if necessary
   # initial set up done.
-  + now need to added counts as well as solidify schema
+  # now need to added counts
+  + solidify schema
 - need to follow 3XX redirects and detect loops [1][2]
 
 
