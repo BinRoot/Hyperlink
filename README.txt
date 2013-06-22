@@ -63,3 +63,10 @@ Dev Notes:
 - use db cache, then fresh lookup, updating db if necessary
   # initial set up done.
   + now need to added counts as well as solidify schema
+- need to follow 3XX redirects and detect loops [1][2]
+
+
+
+
+[1] http://en.wikipedia.org/wiki/HTTP_301 
+[2] http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html )
