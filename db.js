@@ -17,16 +17,33 @@ exports.upsertLink = function(link, data, callback) {
     });
 }
 
-exports.findLink = function(link, callback) {
+exports.findLink = function(accessType, link, callback) {
     connect( function(db) {
 	var collection = db.collection('link');
 
 	var q = {"href": link};
 	console.log("finding...");
-	collection.findOne(q, function(err, res) {
+
+	if( accessType == "modify" ) {
+	    collection.findAndModify(q, null, { $inc: {loads: 1} }, {upsert: true}, function (err, res) {
+		db.close();
+		console.log('find and modifying ' + res);
+		callback(res);
+	    });
+	}
+	else if( accessType == "one" ) {
+	    collection.findOne(q, function (err, res) {
+		db.close();
+		console.log('finding ' + res);
+		callback(res);
+	    });
+	}
+	else {
 	    db.close();
-	    callback(res);
-	});
+	    var err = 'ERROR: Incorrect acces type: ' + accessType;
+	    console.log(err);
+	    callback(err);
+	}
     });
 }
 

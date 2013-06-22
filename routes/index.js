@@ -52,7 +52,12 @@ exports.test = function(req, res) {
 	    });
 	}
 	else if(req.query.b) {
-	    db.findLink('http://www.reddit.com', function(out) {
+	    db.findLink('modify', 'http://www.reddit.com', function(out) {
+		res.send(out);
+	    });
+	}
+	else if(req.query.c) {
+	    db.findLink('one', 'http://www.reddit.com', function(out) {
 		res.send(out);
 	    });
 	}

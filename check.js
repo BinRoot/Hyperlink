@@ -108,7 +108,7 @@ function urlExists(url, callback) {
 
 
 function cachedUrlExists(url, callback) {
-    db.findLink(url, function(res) {
+    db.findLink('modify', url, function(res) {
 	if(res) {
 	    callback(null, res.statusCode);
 	}
