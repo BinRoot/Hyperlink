@@ -66,3 +66,7 @@ exports.test = function(req, res) {
 	}
     }
 }
+
+exports.raw = function(req, res) {
+    res.render('raw');
+}
