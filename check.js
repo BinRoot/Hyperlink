@@ -1,5 +1,5 @@
-var http = require('http');
-var https = require('https');
+var http = require('follow-redirects').http;
+var https = require('follow-redirects').https;
 var async = require('async');
 
 var urlParser = require('url');
