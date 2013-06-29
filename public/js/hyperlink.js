@@ -8,22 +8,24 @@ $(document).ready(function() {
 
     $.post('/', { 'data': urls, 'cached': true }, function(data) {
 	console.log('cached result: '+JSON.stringify(data));
-	colorLinks(urls, data);
+	colorLinks(data);
     }, "json");
     $.post('/', { 'data': urls, 'cached': false }, function(data) {
 	console.log('fresh result: '+JSON.stringify(data));
-	colorLinks(urls, data);
+	colorLinks(data);
     }, "json");
 });
 
-function colorLinks(urls, responseCodes) {
+function colorLinks(links) {
     forEachLink( function(i, v) {
-	var responseCode = responseCodes[i].code;
-	if( responseCode == 'ENOTFOUND' ) {
-	    $(v).addClass( 'hyperlink-broken' );
-	}
-	else if( responseCode == 404 ) {
-	    $(v).addClass( 'hyperlink-404' );
+	if(links[i]) {
+	    var code = links[i].code;
+	    if( code == 'ENOTFOUND' ) {
+		$(v).addClass( 'hyperlink-broken' );
+	    }
+	    else if( code == 404 ) {
+		$(v).addClass( 'hyperlink-404' );
+	    }
 	}
     });
 }
