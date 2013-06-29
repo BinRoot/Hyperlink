@@ -41,7 +41,7 @@ function forEachLink( callback ) {
 	    // TODO: Double check that this works.
 	    var hashSplit = v.href.split("#");
 	    if( hashSplit.length > 1 && hashSplit[0]==v.baseURI ) {
-		console.log('ignoring '+v.href+' because it contains #');		
+		// console.log('ignoring '+v.href+' because it contains #');		
 	    }
 	    else {
 		callback(i, v);
