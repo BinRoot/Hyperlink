@@ -77,8 +77,13 @@ function urlExists(url, callback) {
         path: uri.path
     };
 
+    var protocol = http;
+    if(uri.protocol == 'https:') {
+	protocol = https;
+    }
+
     // TODO: what about https?
-    http.request(options, function(response) {
+    protocol.request(options, function(response) {
 	var dataRec = false;
 	response.on('data', function (chunk) {
 	    if(!dataRec) {
