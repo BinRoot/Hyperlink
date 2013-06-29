@@ -9,7 +9,7 @@ exports.upsertLink = function(link, data, callback) {
 
 	var sel = {"href": link};
 
-	console.log('updating...');
+	console.log('db: updating '+link);
 
 	collection.findAndModify (
 	    sel, [], 
@@ -28,11 +28,16 @@ exports.findLink = function(link, callback) {
 	var collection = db.collection('link');
 
 	var q = {"href": link};
-	console.log("finding...");
+	console.log("db: finding "+link);
 
 	collection.findOne(q, function (err, res) {
 	    db.close();
-	    console.log('finding ' + res);
+	    if(res) {
+		console.log("db: not found "+link);
+	    }
+	    else {
+		console.log("db: found "+link);
+	    }
 	    callback(res);
 	});
 
@@ -42,11 +47,11 @@ exports.findLink = function(link, callback) {
 function connect( callback ) {
     MongoClient.connect("mongodb://localhost:27017/test", function(err, db) {
 	if(!err) {
-	    console.log("We are connected");
+	    console.log("db: We are connected");
 	    callback(db);
 	}
 	else {
-	    console.log('could not connect to db, ' + err);
+	    console.log('db: could not connect, ' + err);
 	}
     });
 }

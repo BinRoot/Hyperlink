@@ -38,31 +38,29 @@ exports.checkURL = function(url, callback) {
 }
 
 exports.checkURLs = function(urls, callback) {
-    console.log('searching for '+JSON.stringify(urls));
+    console.log('check: checking fresh '+JSON.stringify(urls));
     var asyncFunctions = [];
     for(var i=0; i<urls.length; i++) {
-	console.log('pushing '+urls[i]);
 	asyncFunctions.push( urlExists.curry(urls[i]) );
     }
 
     async.parallel(asyncFunctions,
 		   function(err, results) {
-		       console.log('got results: '+results);
+		       console.log('check: got results: '+JSON.stringify(results));
 		       callback(results);
 		   });
 }
 
 exports.checkCachedURLs = function(urls, callback) {
-    console.log('searching for '+JSON.stringify(urls));
+    console.log('check: checking cache for '+JSON.stringify(urls));
     var asyncFunctions = [];
     for(var i=0; i<urls.length; i++) {
-	console.log('pushing '+urls[i]);
 	asyncFunctions.push( cachedUrlExists.curry(urls[i]) );
     }
 
     async.parallel(asyncFunctions,
 		   function(err, results) {
-		       console.log('got results: '+results);
+		       console.log('check: got cached results: '+JSON.stringify(results));
 		       callback(results);
 		   });
 }
