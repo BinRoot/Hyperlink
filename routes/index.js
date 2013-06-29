@@ -22,8 +22,7 @@ exports.index = function(req, res) {
 		res.send(out);
 	    });
 	}
-    }
-    else if (req.route.method == 'get'){
+    } else if (req.route.method == 'get'){
 	if(req.query.q) {
             var site = req.query.q;
 

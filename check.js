@@ -77,45 +77,50 @@ function urlExists(url, callback) {
         path: uri.path
     };
 
+    // TODO: what about https?
     http.request(options, function(response) {
 	var dataRec = false;
 	response.on('data', function (chunk) {
 	    if(!dataRec) {
-		var updateData = {$set: {statusCode: response.statusCode}};
-		db.upsertLink(url, updateData, function(out) {
-		    callback(null, response.statusCode);		    
-		});
+		updateDb(url, response.statusCode, callback);
 	    }
 	    dataRec = true;
         });
-
 	response.on('end', function () {
 	    if(!dataRec) {
-		var updateData = {$set: {statusCode: response.statusCode}};
-		db.upsertLink(url, updateData, function(out) {
-		    callback(null, response.statusCode);		    
-		});
+		updateDb(url, response.statusCode, callback);
 	    }
 	} );
-
-    }).on('error', function(e){
-	var updateData = {$set: {statusCode: e.code}};
-	db.upsertLink(url, updateData, function(out) {
-	    callback(null, e.code);
-	});
+    }).on('error', function(e) {
+	updateDb(url, e.code, callback);
     }).end();
 }
 
-
 function cachedUrlExists(url, callback) {
-    db.findLink('modify', url, function(res) {
+    db.findLink(url, function(res) {
 	if(res) {
-	    callback(null, res.statusCode);
+	    callback(null, simplifyLinkJSON(res));
 	}
 	else {
-	    callback(null, -1);
+	    callback(null, {});
 	}
     });
 }
 
+function simplifyLinkJSON(link) {
+    return {
+	href:  link.href,
+	code:  link.code,
+	score: link.score
+    };
+}
 
+function updateDb(url, statusCode, callback) {
+    var updateData = {
+	$set: {code: statusCode},
+	$inc: {score: 1}
+    };
+    db.upsertLink(url, updateData, function(out) {
+	callback(null, simplifyLinkJSON(out));
+    });
+}

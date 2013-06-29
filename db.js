@@ -10,40 +10,32 @@ exports.upsertLink = function(link, data, callback) {
 	var sel = {"href": link};
 
 	console.log('updating...');
-	collection.update(sel, data, {upsert:true}, function(err, res) {
-	    db.close();	
-	    callback('done, '+JSON.stringify(res));
-	});
+
+	collection.findAndModify (
+	    sel, [], 
+	    data, 
+	    {new: true, upsert:true},
+	    function(err, res) {
+		db.close();
+		callback(res);
+	    }
+	);
     });
 }
 
-exports.findLink = function(accessType, link, callback) {
+exports.findLink = function(link, callback) {
     connect( function(db) {
 	var collection = db.collection('link');
 
 	var q = {"href": link};
 	console.log("finding...");
 
-	if( accessType == "modify" ) {
-	    collection.findAndModify(q, null, { $inc: {loads: 1} }, {upsert: true}, function (err, res) {
-		db.close();
-		console.log('find and modifying ' + res);
-		callback(res);
-	    });
-	}
-	else if( accessType == "one" ) {
-	    collection.findOne(q, function (err, res) {
-		db.close();
-		console.log('finding ' + res);
-		callback(res);
-	    });
-	}
-	else {
+	collection.findOne(q, function (err, res) {
 	    db.close();
-	    var err = 'ERROR: Incorrect acces type: ' + accessType;
-	    console.log(err);
-	    callback(err);
-	}
+	    console.log('finding ' + res);
+	    callback(res);
+	});
+
     });
 }
 
@@ -58,4 +50,3 @@ function connect( callback ) {
 	}
     });
 }
-

@@ -3,11 +3,11 @@ Hyperlink.io
 Abstraction layer between hyperlinks and their corresponding content.
 
 Immediately useful:
-* normal links
-* visited links change color
+[DONE] * normal links 
+[DONE] * visited links change color
 
-* broken links change color
-* 404'd links change color
+[DONE] * broken links change color
+[DONE] * 404'd links change color
 
 * redirected links change color
 * spam links change color
@@ -64,10 +64,36 @@ Dev Notes:
   # initial set up done.
   # now need to added counts
   + solidify schema
-- need to follow 3XX redirects and detect loops [1][2]
+- need to follow 3XX redirects and detect loops
+  # done using http-redirects library
+
+
+get a list of hrefs.
+check the db cache for each href.
+check the http directly. update db with new code and incremented score.
+
+link collection:
+{
+  href: "http://website.com",
+  code: 200,
+  score: 1,
+  titles: [{title: "Click here", freq: 1}]; 
+} // seeing a title vs. existing a title per page
 
 
 
+# dead code that I'm not willing to forget just yet:
+if( accessType == "modify" ) {
+  collection.findAndModify(q, null, { $inc: {loads: 1} }, {upsert: true}, function (err, res) {
+  db.close();
+  console.log('find and modifying ' + res);
+  callback(res);
+  });
+}
 
-[1] http://en.wikipedia.org/wiki/HTTP_301 
-[2] http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html )
+# more dead code. why am I so attached?
+collection.update(sel, data, {upsert:true}, function(err, res) {                                                                                                        
+  console.log('upsert output: '+JSON.stringify(res));                                                                                                                 
+  db.close();                                                                                                                                                         
+  callback(res);                                                                                                                                                      
+}); 

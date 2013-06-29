@@ -7,18 +7,18 @@ $(document).ready(function() {
     console.log(urls);
 
     $.post('/', { 'data': urls, 'cached': true }, function(data) {
-	console.log('cached result: '+data);
+	console.log('cached result: '+JSON.stringify(data));
 	colorLinks(urls, data);
     }, "json");
     $.post('/', { 'data': urls, 'cached': false }, function(data) {
-	console.log('fresh result: '+data);
+	console.log('fresh result: '+JSON.stringify(data));
 	colorLinks(urls, data);
     }, "json");
 });
 
 function colorLinks(urls, responseCodes) {
     forEachLink( function(i, v) {
-	var responseCode = responseCodes[i];
+	var responseCode = responseCodes[i].code;
 	if( responseCode == 'ENOTFOUND' ) {
 	    $(v).addClass( 'hyperlink-broken' );
 	}
