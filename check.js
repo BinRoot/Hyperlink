@@ -81,17 +81,17 @@ function urlExists(origin, url, callback) {
 	protocol = https;
     }
 
+    dataRecDict[url] = 1;
     protocol.request(options, function(response) {
-	dataRecDict[url] = true;
 	response.on('data', function (chunk) {
-	    if(dataRecDict[url] == true) {
+	    if(dataRecDict[url] == 1) {
 		delete dataRecDict[url];
 		console.log('check: fresh result for '+url+' -> ' + response.statusCode);
 		updateDb(origin, url, response.statusCode, callback);
 	    }
         });
 	response.on('end', function () {
-	    if(dataRecDict[url] == true) {
+	    if(dataRecDict[url] == 1) {
 		delete dataRecDict[url];
 		console.log('check: fresh result for '+url+' -> ' + response.statusCode);
 		updateDb(origin, url, response.statusCode, callback);
