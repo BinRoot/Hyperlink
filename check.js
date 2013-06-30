@@ -65,8 +65,9 @@ exports.checkCachedURLs = function(urls, callback) {
 		   });
 }
 
-
 // -- helper functions
+
+var dataRecDict = {};
 
 function urlExists(url, callback) {
     var uri = urlParser.parse(url);
@@ -80,21 +81,25 @@ function urlExists(url, callback) {
 	protocol = https;
     }
 
-    // TODO: what about https?
     protocol.request(options, function(response) {
-	var dataRec = false;
+	dataRecDict[url] = true;
 	response.on('data', function (chunk) {
-	    if(!dataRec) {
+	    if(dataRecDict[url] == true) {
+		delete dataRecDict[url];
+		console.log('check: fresh result for '+url+' -> ' + response.statusCode);
 		updateDb(url, response.statusCode, callback);
 	    }
-	    dataRec = true;
         });
 	response.on('end', function () {
-	    if(!dataRec) {
+	    if(dataRecDict[url] == true) {
+		delete dataRecDict[url];
+		console.log('check: fresh result for '+url+' -> ' + response.statusCode);
 		updateDb(url, response.statusCode, callback);
 	    }
-	} );
+	});
     }).on('error', function(e) {
+	delete dataRecDict[url];
+	console.log('check: fresh result for '+url+' -> ' + e.code);
 	updateDb(url, e.code, callback);
     }).end();
 }

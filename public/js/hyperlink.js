@@ -16,20 +16,30 @@ $(document).ready(function() {
     }, "json");
 });
 
+// used by $()
 function colorLinks(links) {
     forEachLink( function(i, v) {
 	if(links[i]) {
 	    var code = links[i].code;
 	    if( code == 'ENOTFOUND' ) {
+		removeHyperlinkClasses(v);
 		$(v).addClass( 'hyperlink-broken' );
 	    }
 	    else if( code == 404 ) {
+		removeHyperlinkClasses(v);
 		$(v).addClass( 'hyperlink-404' );
 	    }
 	}
     });
 }
 
+// used by colorsLinks
+function removeHyperlinkClasses( v ) {
+    $(v).removeClass('hyperlink-404');
+    $(v).removeClass('hyperlink-broken');
+}
+
+// used by colorLinks and $()
 function forEachLink( callback ) {
     $.each( $('a'), function(i, v) {
 
