@@ -130,7 +130,10 @@ function updateDb(origin, url, statusCode, callback) {
     };
 
     db.upsertLink(url, updateData, function(out) {
-	if(out.origins) {
+	if(!out) {
+	    callback(null, {});
+	}
+	else if(out.origins) {
 	    var found = false;
 	    var freq = -1;
 	    for(var i=0; i<out.origins.length; i++) {
