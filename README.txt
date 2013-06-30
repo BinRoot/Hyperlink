@@ -81,6 +81,10 @@ link collection:
 } // seeing a title vs. existing a title per page
 
 
+# Fetching URLs 20 at a time:
+
+
+
 
 # dead code that I'm not willing to forget just yet:
 if( accessType == "modify" ) {
