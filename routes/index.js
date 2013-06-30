@@ -9,6 +9,7 @@ var db = require('../db.js');
 exports.index = function(req, res) {
 
     if (req.route.method == 'post') {
+	var origin = req.body.origin;
 	var sites = req.body.data;
 	var cached = req.body.cached;
 	
@@ -18,7 +19,7 @@ exports.index = function(req, res) {
 	    });
 	}
 	else {
-	    checker.checkURLs(sites, function(out) {
+	    checker.checkURLs(origin, sites, function(out) {
 		res.send(out);
 	    });
 	}

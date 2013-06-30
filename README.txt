@@ -77,8 +77,8 @@ link collection:
   href: "http://website.com",
   code: 200,
   shows: 1,
-  titles: [{title: "Click here", freq: 1}]; 
-} // seeing a title vs. existing a title per page
+  origins: {'http://site.com': 1, ...}];
+}
 
 
 # Fetching URLs 20 at a time:

@@ -6,11 +6,13 @@ $(document).ready(function() {
 
     console.log(urls);
 
+    var origin = $(location).attr('href');
+
     $.post('/', { 'data': urls, 'cached': true }, function(data) {
 	console.log('cached result: '+JSON.stringify(data));
 	colorLinks(data);
     }, "json");
-    $.post('/', { 'data': urls, 'cached': false }, function(data) {
+    $.post('/', {'origin': origin, 'data': urls, 'cached': false }, function(data) {
 	console.log('fresh result: '+JSON.stringify(data));
 	colorLinks(data);
     }, "json");

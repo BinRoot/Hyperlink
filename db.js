@@ -23,6 +23,29 @@ exports.upsertLink = function(link, data, callback) {
     });
 }
 
+exports.upsertOrigin = function(link, data) {
+    connect( function(db) {
+	var collection = db.collection('link');
+	
+	var sel = {"href": link};
+
+	collection.update(sel, data, {upsert: true, w:0});
+	db.close();
+    });
+}
+
+exports.updateOrigin = function(link, origin, data) {
+    connect( function(db) {
+	var collection = db.collection('link');
+	
+	var sel = {"href": link, "origins.url": origin };
+
+	collection.update(sel, data, {upsert: true, w:0});
+	db.close();
+    });
+}
+
+
 exports.findLink = function(link, callback) {
     connect( function(db) {
 	var collection = db.collection('link');
