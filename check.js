@@ -119,14 +119,14 @@ function simplifyLinkJSON(link) {
     return {
 	href:  link.href,
 	code:  link.code,
-	score: link.score
+	shows: link.shows
     };
 }
 
 function updateDb(url, statusCode, callback) {
     var updateData = {
 	$set: {code: statusCode},
-	$inc: {score: 1}
+	$inc: {shows: 1}
     };
     db.upsertLink(url, updateData, function(out) {
 	callback(null, simplifyLinkJSON(out));

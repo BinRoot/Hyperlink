@@ -70,13 +70,13 @@ Dev Notes:
 
 get a list of hrefs.
 check the db cache for each href.
-check the http directly. update db with new code and incremented score.
+check the http directly. update db with new code and incremented shows.
 
 link collection:
 {
   href: "http://website.com",
   code: 200,
-  score: 1,
+  shows: 1,
   titles: [{title: "Click here", freq: 1}]; 
 } // seeing a title vs. existing a title per page
 
