@@ -2,6 +2,8 @@
 
 Abstraction layer between hyperlinks and their corresponding content.
 
+It's 2013. Links shouldn't point to 404 pages or broken sites.
+
 ## Immediately useful:
 * [DONE] normal links
 * [DONE] visited links change color
@@ -44,12 +46,12 @@ Just place this script right before `</body>`
 Authenticating website with hyperlink service:
 Hyperlink.io must find the `<script src="http://hyperlink.io/hyperlink.js">` somewhere on site
 
-## Web developer storyboard
-User enters hyperlink.io
-Wants to see his/her website analytics. 
-Social login
-On first login, given a generated auth key
-`<script src="http://hyperlink.io/hyperlink.js"></script>` (add the auth key somewhere)
+## Web developer storyboard:
+1. User enters hyperlink.io
+2. Wants to see his/her website analytics.
+3. Social login
+4. On first login, given a generated auth key
+5. `<script src="http://hyperlink.io/hyperlink.js"></script>` (add the auth key somewhere)
 
 
 ## Personal Dev Notes:
