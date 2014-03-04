@@ -2,13 +2,15 @@
 
 Abstraction layer between hyperlinks and their corresponding content.
 
-It's 2013. Links shouldn't point to 404 pages or broken sites.
+It's 2014. Links shouldn't point to 404 pages or broken sites.
 
 ## Immediately useful:
 * [DONE] normal links
 * [DONE] visited links change color
 * [DONE] broken links change color
 * [DONE] 404'd links change color
+* 404: repair page
+* link change event trigger (email)
 * redirected links change color
 * spam links change color
 * popular links have indicators (normalized ranking, percent clicks)
